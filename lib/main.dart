@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final User? user;
+  const HomeScreen({Key? key, this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -105,50 +106,34 @@ class ContainerUser extends StatelessWidget {
               ])
             ],
           ),
-          ButtonFollow(controller: controller),         
+          GestureDetector(
+            onTap: () {
+              controller.isFollower();
+            },
+            child: Obx(()=>
+               AnimatedContainer(
+                  height: 35,
+                  width: 110,
+                  duration: Duration(milliseconds: 300),
+                  decoration: BoxDecoration(
+                      color: ( controller.isFollow.value )
+                          ? Colors.blue[700]
+                          : Color(0xffffff),
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                        color: ( controller.isFollow.value )
+                            ? Colors.transparent
+                            : Colors.grey.shade700,
+                      )),
+                  child: Center(
+                      child: Text(( controller.isFollow.value ) ? 'Unfollow' : 'Follow',
+                          style: TextStyle(
+                              color: ( controller.isFollow.value )
+                                  ? Colors.white
+                                  : Colors.white)))),
+            ),
+          ),
         ],
-      ),
-    );
-  }
-}
-
-class ButtonFollow extends StatelessWidget {
-  const ButtonFollow({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
-
-  final HomeController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        
-        controller.isFollower();
-      },
-      child: Obx(
-        () => AnimatedContainer(
-            height: 35,
-            width: 110,
-            duration: Duration(milliseconds: 300),
-            decoration: BoxDecoration(
-                color: controller.isFollow.value 
-                    ? Colors.blue[700]
-                    : Color(0xffffff),
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(
-                  color: controller.isFollow.value
-                      ? Colors.transparent
-                      : Colors.grey.shade700,
-                )),
-            child: Center(
-                child: Text(
-                    controller.isFollow.value ? 'Unfollow' : 'Follow',
-                    style: TextStyle(
-                        color: controller.isFollow.value
-                            ? Colors.white
-                            : Colors.white)))),
       ),
     );
   }

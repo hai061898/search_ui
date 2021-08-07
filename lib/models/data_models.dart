@@ -5,8 +5,6 @@ class User {
   bool isFollowedByMe;
 
   User(this.name, this.username, this.image, this.isFollowedByMe);
+
+  
 }
-
-
-
- 
